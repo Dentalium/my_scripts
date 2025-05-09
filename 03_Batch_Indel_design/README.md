@@ -40,10 +40,11 @@ flowchart LR
 可以使用以下脚本根据vcf文件提取序列
 
 ```sh
+input_vcf="XXX"
 flank_len=300
 ref="XXX.fa"
 
-for line in $(bcftools view -H input.vcf)
+for line in $(bcftools view -H ${input_vcf})
 do
   chr=$(echo ${line} | cut -f 1)
   pos=$(echo ${line} | cut -f 2)
