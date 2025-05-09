@@ -35,3 +35,22 @@ flowchart LR
 
 # NGS测序+变异检测
 
+对于基于NGS的变异检测获得的Indel位点，只需要提取所有Indel位点两翼序列，即可套用基于WGA的工作流程
+
+可以使用以下脚本根据vcf文件提取序列
+
+```sh
+flank_len=300
+ref="XXX.fa"
+
+for line in $(bcftools view -H input.vcf)
+do
+  chr=$(echo ${line} | cut -f 1)
+  pos=$(echo ${line} | cut -f 2)
+
+  start=$((pos - flank_len))
+  end=$((pos + flank_len))
+
+  seqkit grep -p ${chr} ${ref} | seqkit subseq -Rr "${start}:${end}" > seqextr/${chr}_${pos}.fa
+done
+```
