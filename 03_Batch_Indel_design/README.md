@@ -27,7 +27,7 @@ flowchart LR
 
 ## 4. BLAST
 
-使用`batch_blast.sh`对Indel位点两翼序列进行BLAST搜索，使用`blast_report.sh`统计hit数量，结果输出至`blast_report.txt`
+使用`batch_blast.sh`对Indel位点两翼序列进行BLAST搜索，使用`blast_report.sh`统计hit数量，结果输出至`blast.report.txt`
 
 ## 5. 批量设计引物
 
@@ -35,23 +35,4 @@ flowchart LR
 
 # NGS测序+变异检测
 
-对于基于NGS的变异检测获得的Indel位点，只需要提取所有Indel位点两翼序列，即可套用基于WGA的工作流程
-
-可以使用以下脚本根据vcf文件提取序列
-
-```sh
-input_vcf="XXX"
-flank_len=300
-ref="XXX.fa"
-
-for line in $(bcftools view -H ${input_vcf})
-do
-  chr=$(echo ${line} | cut -f 1)
-  pos=$(echo ${line} | cut -f 2)
-
-  start=$((pos - flank_len))
-  end=$((pos + flank_len))
-
-  seqkit grep -p ${chr} ${ref} | seqkit subseq -Rr "${start}:${end}" > seqextr/${chr}_${pos}.fa
-done
-```
+对于基于NGS的变异检测获得的Indel位点，只需要提取所有Indel位点两翼序列，即可套用基于WGA的工作流程，可用`batch_extract_vcf.sh`实现
