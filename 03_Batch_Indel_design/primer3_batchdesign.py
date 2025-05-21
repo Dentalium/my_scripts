@@ -4,6 +4,9 @@ import argparse
 
 """
 官网：https://github.com/primer3-org/primer3?tab=readme-ov-file
+
+Python=3.12.8
+primer3-py=2.0.3
 """
 
 # 已手动修改产物长度、扩增区域等设置
@@ -88,7 +91,7 @@ for i in range(len(index)):
     seq_args = {
         'SEQUENCE_ID': str(index[i]),
         'SEQUENCE_TEMPLATE': str(seq[i]),
-        'SEQUENCE_TARGET': [150, 101],
+        'SEQUENCE_TARGET': [250, 101],  # 警告! 必须与模板长度匹配!
         'SEQUENCE_INCLUDED_REGION': [0, len(seq[i])-1]
     }
     GeneID = str(index[i])

@@ -1,8 +1,10 @@
-for i in $(cat blast_report.txt)
+mkdir -p primers/
+
+cat blast.report.txt | while read i
 do
-	if [ $(echo ${i} | cut -f 2) -eq 1 ]
+	if [ $(echo "${i}" | cut -f 2) -eq 1 ]
 	then
-		id=$(echo ${i} | cut -f 1)
+		id=$(echo "${i}" | cut -f 1)
 
 		echo ${id}
 
