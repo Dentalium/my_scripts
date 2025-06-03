@@ -18,7 +18,7 @@ set_strand <- function(input) {
   return(input)
 }
 
-input_paf="l94vsmorex.paf"
+input_paf="00032vsselected.paf"
 
 coords<-read.table(input_paf, fill = T)
 
@@ -45,57 +45,38 @@ coords.filter<-coords[coords$alignLen >= 5000,]
 #  filter(refStart>=5e8)
 
 # 排序
-chrs_order <- c("ptg000205l",
-                "ptg000410l",
-                "ptg000242l",
-                "ptg000424l",
-                "ptg001294l",
-                "ptg000033l",
-                "ptg000477l",
-                "ptg001268l",
-                "ptg000955l",
-                "ptg000418l",
-                "ptg000072l",
-                "ptg000079l",
-                "ptg000204l",
-                "ptg001149l",
-                "ptg001122l",
-                "ptg001253l",
-                "ptg001165l",
-                "ptg001063l",
-                "ptg000351l",
-                "ptg001776l",
-                "ptg000124l",
-                "ptg001096l",
-                "ptg001877l",
-                "ptg000191l",
-                "ptg001338l",
-                "ptg001039l",
-                "ptg000868l",
-                "ptg000909l",
-                "ptg001681l",
-                "ptg001947l",
-                "ptg001439l",
-                "ptg001245l")
+chrs_order <- c("ptg001551l",
+                "ptg000831l",
+                "ptg000098l",
+                "ptg000323l",
+                "ptg000093l",
+                "ptg001835l",
+                "ptg000245l",
+                "ptg002568l",
+                "ptg002045l",
+                "ptg000450l",
+                "ptg003343l",
+                "ptg000705l",
+                "ptg001293l",
+                "ptg002279l",
+                "ptg000419l",
+                "ptg000677l",
+                "ptg001745l",
+                "ptg000047l",
+                "ptg001088l",
+                "ptg000893l",
+                "ptg000359l")
 
 # 定向
-chrs_reverse <- c("ptg000410l",
-                  "ptg000424l",
-                  "ptg001294l",
-                  "ptg000033l",
-                  "ptg000477l",
-                  "ptg000955l",
-                  "ptg000418l",
-                  "ptg000204l",
-                  "ptg001122l",
-                  "ptg001253l",
-                  "ptg000351l",
-                  "ptg001776l",
-                  "ptg001877l",
-                  "ptg000191l",
-                  "ptg000868l",
-                  "ptg000909l",
-                  "ptg001947l")
+chrs_reverse <- c("ptg001551l",
+                  "ptg000098l",
+                  "ptg000245l",
+                  "ptg002568l",
+                  "ptg000450l",
+                  "ptg000677l",
+                  "ptg001745l",
+                  "ptg000893l",
+                  "ptg000359l")
 
 # 选取contig并设置顺序
 coords.filter <- coords.filter[is.element(coords.filter$queryID,
@@ -114,15 +95,15 @@ coords.filter$queryID <- factor(coords.filter$queryID,
 
 
 ggplot(coords.filter) +
-  geom_segment(aes(y=refStart, x=queryStart, yend=refEnd, xend=queryEnd, color=percentID)) +
-  geom_point(aes(y=refStart, x=queryStart, color=percentID)) +
-  geom_point(aes(y=refEnd, x=queryEnd, color=percentID)) +
-  scale_colour_viridis_c(name = "approx. identity",begin = 1,end = 0.3)  +
+  geom_segment(aes(y=refStart, x=queryStart, yend=refEnd, xend=queryEnd, color=percentID), linewidth=1) +
+  geom_point(aes(y=refStart, x=queryStart, color=percentID), size=0.375) +
+  geom_point(aes(y=refEnd, x=queryEnd, color=percentID), size=0.375) +
+  scale_colour_viridis_c(name = "approx. identity", begin = 1,end = 0.3, limits=c(NA,1))  +
   facet_grid(.~queryID, scales = "free_x", space = "free_x", switch = "x") +
-  scale_y_reverse(breaks = seq(5e8,6.5e8,5e7), labels = function(x){x/1e6}) +
-  labs(y="l94 ptg000032l",x="SusPtrit contigs") +
-  theme(strip.text = element_text(angle = 45),
+  scale_x_continuous(breaks = seq(-3e6,3e6,0.5e6), labels = function(x){x/1e6}) +
+  scale_y_reverse(breaks = seq(0, 4e7, 1e7), labels = function(x){x/1e6}) +
+  labs(y="l94 ptg000032l (Mb)",x="SusPtrit contigs (Mb)") +
+  theme(strip.text = element_text(angle = 60),
         axis.title.y = element_text(angle = 270)) +
-  coord_cartesian(expand = F, ylim = c(0,NA)) +
+  coord_cartesian(expand = F, ylim = c(NA,0)) +
   geom_blank()
-
